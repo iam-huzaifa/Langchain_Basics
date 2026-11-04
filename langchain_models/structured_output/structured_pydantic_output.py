@@ -1,7 +1,7 @@
 # pydantic (data validation library)
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-from typing import TypedDict, Annotated, Optional, Literal
+from typing import  Optional, Literal
 from pydantic import BaseModel, EmailStr,Field
 
 load_dotenv()
@@ -17,14 +17,9 @@ class   Review(BaseModel):
     key_themes: list[str]= Field(description='Write down all key themes in this review')
     summary: str = Field(description='Write down summary of this review')
     sentiment: Literal['positive', 'negative', 'neutral'] = Field(description='Write down sentiment of this review')
-
-    key_themes: Annotated[list[str], 'Write down all key themes in this review']
-    summary: Annotated[list[str], 'Write down summaries of review']
-    sentiment: Annotated[list[str], 'Write down sentiments of review']
-    pros: Annotated[list[str], 'Write down proportions of reviews']
-    cons: Annotated[list[str], 'Write down consensus of reviews']
-    name: Annotated[Optional[list[str]], 'Write down names of review']
-    rating: Annotated[Optional[float], 'Write down rating of review']
+    pros: list[str]= Field(description='Write down proportions of this review')
+    cons: list[str]= Field(description='Write down conservation of this review')
+    rating: Optional[float] = Field(description='Write down rating of the product')
 
 structured_model = model.with_structured_output(Review)
 
@@ -44,6 +39,6 @@ result = structured_model.invoke("""Hi, my name is Huzaifa, and I have been usin
 
 **Final Recommendation:** Recommended for students and professionals who need a reliable laptop for everyday work, coding, and productivity. However, I would recommend checking the laptop's RAM, SSD, battery health, and price before buying it.""")
 
+#result.model_dump() → converts the entire object into a Python dictionary.
 print('result',result)
-print('structured_model',structured_model)
-print('rating',result['rating'])
+print('rating',result.rating)
