@@ -101,6 +101,5 @@ for message in memory["user1"].messages:
 
 print("\nFinal result:")
 print(result)
-
 print("\nFinal tips:")
 print(result["tip"])
